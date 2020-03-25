@@ -18,6 +18,9 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 
+import android.content.ComponentName;
+import android.os.Bundle;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -60,36 +63,40 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
   }
 
   @ReactMethod
-  public void startActivity(String action, ReadableMap data) {
+  public void startActivity(String appPackage, String action, ReadableMap data) {
       Activity activity = getReactApplicationContext().getCurrentActivity();
-      Intent intent = new Intent(action);
-      intent.putExtras(Arguments.toBundle(data));
-      activity.startActivity(intent);
+      Intent launchIntent = new Intent();
+      launchIntent.setComponent(new ComponentName(appPackage, action));
+
+      launchIntent.putExtras(Arguments.toBundle(data));
+      activity.startActivity(launchIntent);
   }
 
   @ReactMethod
-  public void startActivityForResult(int requestCode, String action, ReadableMap data, Promise promise) {
+  public void startActivityForResult(int requestCode, String appPackage, String action, ReadableMap data, Promise promise) {
       Activity activity = getReactApplicationContext().getCurrentActivity();
-      Intent intent = new Intent(action);
-      intent.putExtras(Arguments.toBundle(data));
-      activity.startActivityForResult(intent, requestCode);
+
+      Intent launchIntent = new Intent();
+      launchIntent.setComponent(new ComponentName(appPackage, action));
+      launchIntent.putExtras(Arguments.toBundle(data));
+      activity.startActivityForResult(launchIntent, requestCode);
+
+
       mPromises.put(requestCode, promise);
   }
 
   @ReactMethod
-  public void resolveActivity(String action, Promise promise) {
+  public void resolveActivity(String appPackage, String action, Promise promise) {
       Activity activity = getReactApplicationContext().getCurrentActivity();
-      Intent intent = new Intent(action);
-      ComponentName componentName = intent.resolveActivity(activity.getPackageManager());
-      if (componentName == null) {
+      Intent launchIntent = new Intent();
+      launchIntent.setComponent(new ComponentName(appPackage, action));
+
+      if(activity.getPackageManager().resolveActivity(launchIntent, 0) != null) {
+          promise.resolve(map);
+      }else{
           promise.resolve(null);
           return;
       }
-
-      WritableMap map = new WritableNativeMap();
-      map.putString("class", componentName.getClassName());
-      map.putString("package", componentName.getPackageName());
-      promise.resolve(map);
   }
 
   @ReactMethod
