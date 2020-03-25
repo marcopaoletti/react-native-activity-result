@@ -92,10 +92,9 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       launchIntent.setComponent(new ComponentName(appPackage, action));
 
       if(activity.getPackageManager().resolveActivity(launchIntent, 0) != null) {
-          promise.resolve(map);
+          promise.resolve(true);
       }else{
           promise.resolve(null);
-          return;
       }
   }
 
