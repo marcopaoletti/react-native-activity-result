@@ -93,7 +93,7 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       launchIntent.setComponent(new ComponentName(appPackage, action));
 
       if(activity.getPackageManager().resolveActivity(launchIntent, 0) != null) {
-          promise.resolve("\"success\":\"true\"");
+          promise.resolve("{\"success\":\"true\"}");
       }else{
           promise.resolve(null);
       }
@@ -112,11 +112,9 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
   public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
       Promise promise = mPromises.get(requestCode);
       if (promise != null) {
-          WritableMap result = new WritableNativeMap();
-          result.putInt("resultCode", resultCode);
-          Log.e("Ivan","Got " + data.getData().toString());
-          result.putString("data", data.getData().toString());
-          promise.resolve(result);
+          Log.e("Ivan","Got " + resultCode + " " + data.getData().toString());
+          String json = "{\"resultCode\":\""+resultCode+"\", \"data\":"+data.getData().toString()+"}"
+          promise.resolve(json);
       }
   }
 
