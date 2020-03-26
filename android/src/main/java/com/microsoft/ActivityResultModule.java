@@ -113,7 +113,7 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       Promise promise = mPromises.get(requestCode);
       if (promise != null) {
           Log.e("Ivan","Got " + resultCode + " " + data.getData().toString());
-          String json = "{\"resultCode\":\""+resultCode+"\", \"data\":"+data.getData().toString()+"}"
+          String json = "{\"resultCode\":\""+resultCode+"\", \"data\":"+data.getData().toString()+"}";
           promise.resolve(json);
       }
   }
