@@ -117,7 +117,7 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
           String json;
 
           if (resultCode == Activity.RESULT_OK) {
-              json = "{\"resultCode\":\"" + OK + "\", \"data\":" + data.getData().toString() + "}";
+              json = "{\"resultCode\":\"OK\", \"data\":" + data.getData().toString() + "}";
           } else {
               json = "{\"resultCode\":\"" + resultCode + "\", \"data\":}";
           }
