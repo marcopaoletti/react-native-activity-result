@@ -95,7 +95,7 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       if(activity.getPackageManager().resolveActivity(launchIntent, 0) != null) {
           promise.resolve("\"success\":\"true\"");
       }else{
-          promise.resolve("\"error\":\"true\"");
+          promise.resolve(null);
       }
   }
 
