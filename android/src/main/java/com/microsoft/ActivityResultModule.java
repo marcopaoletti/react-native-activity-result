@@ -21,6 +21,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import android.content.ComponentName;
 import android.os.Bundle;
 
+import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -92,9 +93,9 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       launchIntent.setComponent(new ComponentName(appPackage, action));
 
       if(activity.getPackageManager().resolveActivity(launchIntent, 0) != null) {
-          promise.resolve(true);
+          promise.resolve("\"success\":\"true\"");
       }else{
-          promise.resolve(null);
+          promise.resolve("\"error\":\"true\"");
       }
   }
 
@@ -113,7 +114,8 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       if (promise != null) {
           WritableMap result = new WritableNativeMap();
           result.putInt("resultCode", resultCode);
-          result.putMap("data", Arguments.makeNativeMap(data.getExtras()));
+          Log.e("Ivan","Got " + data.getData().toString());
+          result.putString("data", data.getData().toString());
           promise.resolve(result);
       }
   }
