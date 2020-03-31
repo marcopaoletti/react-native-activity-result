@@ -28,13 +28,34 @@ import java.util.ResourceBundle;
 
 import javax.annotation.Nullable;
 
-public class ActivityResultModule extends ReactContextBaseJavaModule implements ActivityEventListener {
+public class ActivityResultModule extends ReactContextBaseJavaModule {
 
   final SparseArray<Promise> mPromises;
+
+  private final host.exp.exponent.ActivityResultListener mActivityEventListener = new host.exp.exponent.ActivityResultListener() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+      Promise promise = mPromises.get(requestCode);
+      if (promise != null) {
+          Log.e("Ivan","Got " + resultCode + " " + data.getData().toString());
+
+          String json;
+
+          if (resultCode == Activity.RESULT_OK) {
+              json = "{\"resultCode\":" + resultCode + ", \"data\":" + data.getData().toString() + "}";
+          } else {
+              json = "{\"resultCode\":" + resultCode + ", \"data\":}";
+          }
+
+          promise.resolve(json);
+      }
+     }
+  };
 
   public ActivityResultModule(ReactApplicationContext reactContext) {
       super(reactContext);
       mPromises = new SparseArray<>();
+      Exponent.getInstance().addActivityResultListener(mActivityEventListener);
   }
 
   @Override
@@ -54,13 +75,11 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
   @Override
   public void initialize() {
       super.initialize();
-      getReactApplicationContext().addActivityEventListener(this);
   }
 
   @Override
   public void onCatalystInstanceDestroy() {
       super.onCatalystInstanceDestroy();
-      getReactApplicationContext().removeActivityEventListener(this);
   }
 
   @ReactMethod
@@ -108,26 +127,4 @@ public class ActivityResultModule extends ReactContextBaseJavaModule implements 
       activity.finish();
   }
 
-  @Override
-  public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
-      Promise promise = mPromises.get(requestCode);
-      if (promise != null) {
-          Log.e("Ivan","Got " + resultCode + " " + data.getData().toString());
-
-          String json;
-
-          if (resultCode == Activity.RESULT_OK) {
-              json = "{\"resultCode\":" + resultCode + ", \"data\":" + data.getData().toString() + "}";
-          } else {
-              json = "{\"resultCode\":" + resultCode + ", \"data\":}";
-          }
-
-          promise.resolve(json);
-      }
-  }
-
-  @Override
-  public void onNewIntent(Intent intent) {
-      /* Do nothing */
-  }
 }
