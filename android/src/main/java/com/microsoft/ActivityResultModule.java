@@ -7,26 +7,20 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.util.SparseArray;
-
-import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
-
-import android.content.ComponentName;
-import android.os.Bundle;
 
 import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.annotation.Nullable;
+
+import host.exp.expoview.Exponent;
 
 public class ActivityResultModule extends ReactContextBaseJavaModule {
 

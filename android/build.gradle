@@ -28,9 +28,17 @@ android {
 
 repositories {
     mavenCentral()
+    google()
+    jcenter()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
+    implementation('host.exp.exponent:expoview:32.0.0@aar') {
+        transitive = true
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp-urlconnection'
+    }
 }
   
