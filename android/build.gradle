@@ -31,6 +31,13 @@ repositories {
     google()
     jcenter()
     maven { url 'https://maven.fabric.io/public' }
+	maven {
+        url "$rootDir/versioned-abis/expoview-abi32_0_0/maven"
+    }
+    // For detach
+    maven {
+        url "$rootDir/../node_modules/expokit/maven"
+    }
 }
 
 dependencies {
