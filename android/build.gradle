@@ -32,7 +32,7 @@ repositories {
     jcenter()
     maven { url 'https://maven.fabric.io/public' }
 	maven {
-        url "$rootDir/versioned-abis/expoview-abi32_0_0/maven"
+        url "$rootDir/versioned-abis/expoview-abi35_0_0/maven"
     }
     // For detach
     maven {
@@ -42,7 +42,7 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    implementation('host.exp.exponent:expoview:32.0.0@aar') {
+    implementation('host.exp.exponent:expoview:35.0.0@aar') {
         transitive = true
         exclude group: 'com.squareup.okhttp3', module: 'okhttp'
         exclude group: 'com.squareup.okhttp3', module: 'okhttp-urlconnection'
